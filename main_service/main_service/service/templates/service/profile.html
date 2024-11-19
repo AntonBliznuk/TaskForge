@@ -1,0 +1,44 @@
+{% extends 'service/layout.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block add_css %}
+<link rel="stylesheet" href="{% static 'service/css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <!-- User Photo -->
+    <div class="profile-picture">
+        <img src="{{ user.profile_picture.url }}" alt="User photo">
+        {% if is_owner %}
+        <form action="{{ settings.CHANGE_PROFILE_PICTURE }}" method="POST" enctype="multipart/form-data" class="profile-picture-form">
+            {% csrf_token %}
+            <label for="profile_picture" class="upload-label">Change Photo</label>
+            <input type="file" name="profile_picture" id="profile_picture" class="upload-input">
+            <button type="submit" class="upload-button">Upload</button>
+        </form>
+        {% endif %}
+    </div>
+
+    <!-- User Name and Stats -->
+    <div class="profile-info">
+        <h1>{{ user.username }}</h1>
+        <div class="profile-stats">
+            <div class="profile-stat">
+                <span class="stat-number">1{{ user.groups_count }}</span>
+                <span class="stat-label">Groups</span>
+            </div>
+            <div class="profile-stat">
+                <span class="stat-number">23{{ user.completed_tasks_percentage }}%</span>
+                <span class="stat-label">Completed Tasks</span>
+            </div>
+            <div class="profile-stat">
+                <span class="stat-number">{{ user.date_joined|date:"d.m.Y" }}</span>
+                <span class="stat-label">Registration Date</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

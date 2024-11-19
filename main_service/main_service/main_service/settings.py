@@ -1,10 +1,10 @@
 from pathlib import Path
 from decouple import config
-import dj_database_url
-from datetime import timedelta
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import dj_database_url
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,6 +20,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -29,8 +30,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'service',
-    'rest_framework',
-    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -43,7 +42,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'auth_service.urls'
+ROOT_URLCONF = 'main_service.urls'
 
 TEMPLATES = [
     {
@@ -61,7 +60,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'auth_service.wsgi.application'
+WSGI_APPLICATION = 'main_service.wsgi.application'
 
 
 # Database
@@ -73,7 +72,6 @@ DATABASES = {
 
 
 # Password validation
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -104,29 +102,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 
-# Default primary key field type
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-AUTH_USER_MODEL = 'service.CustomUser'
-
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-}
-
-
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
-    "ROTATE_REFRESH_TOKENS": False,
-    "BLACKLIST_AFTER_ROTATION": False,
-    "UPDATE_LAST_LOGIN": False,
-
-    "ALGORITHM": config('ALGORITHM'),
-    "SIGNING_KEY": config('SIGNING_KEY')
-}
 
 # Cloudinary
 CLOUDINARY_STORAGE = {
@@ -142,3 +117,16 @@ cloudinary.config(
 
 # DEFAULT FILE STORAGE
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+# Default primary key field type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SESSION_COOKIE_AGE = 1209600
+
+# Endpoints
+
+# auth:
+AUTH_SERVICE_URL = 'http://127.0.0.1:4000'
+REGISTER_API = f'{AUTH_SERVICE_URL}/api/register/'
+GET_TOKENS = f'{AUTH_SERVICE_URL}/api/token/'
+GET_DATA_BY_ID = f'{AUTH_SERVICE_URL}/api/databyid/'

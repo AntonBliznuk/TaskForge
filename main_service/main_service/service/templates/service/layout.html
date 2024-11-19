@@ -1,0 +1,52 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Task Forge{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'service/css/layout.css' %}">
+    <link rel="icon" href="{% static 'service/images/icon.png' %}" type="image/x-icon">
+    {% block add_css %}
+    {% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="{{ settings.HOME_PAGE }}">TaskForge</a></h1>
+            </div>
+
+            <!-- Hamburger for mobile view -->
+            <input type="checkbox" id="nav-toggle" class="nav-toggle">
+            <label for="nav-toggle" class="nav-toggle-label">
+                <span></span>
+            </label>
+
+            <!-- Main Navigation -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="{{ settings.USER_GROUP_PAGE }}" class="{% if '/group/user/' in request.path %}active{% endif %}">My Groups</a></li>
+                    <li><a href="{{ settings.CREATE_GROUP_PAGE }}" class="create-button">Create</a></li>
+                </ul>
+            </nav>
+
+            <!-- Authorization panel -->
+            <div class="auth-panel">
+                {% if user.is_authenticated %}
+                    <a href="{{ settings.USER_PROFILE }}{{ user.user_id }}/">Profile</a>
+                    <a href="{{ settings.LOGOUT_PAGE }}">Logout</a>
+                {% else %}
+                    <a href="{{ settings.LOGIN_PAGE }}">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
