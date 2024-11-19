@@ -104,6 +104,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://taskforge-8i3n.onrender.com",
+]
 
 # Cloudinary
 CLOUDINARY_STORAGE = {
