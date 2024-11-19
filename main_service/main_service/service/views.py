@@ -1,10 +1,14 @@
-import requests
 import jwt
-
-from django.shortcuts import render, HttpResponse, redirect
-from django.conf import settings
-from . import forms
+import requests
 from decouple import config
+
+from . import forms
+
+from django.conf import settings
+from django.shortcuts import render, redirect
+
+
+'''<--------------------------------------------------------------( Support Functions )-------------------------------------------------------------------------->'''
 
 
 def login_support(request, username, password):
@@ -23,13 +27,42 @@ def login_support(request, username, password):
     return None
 
 
+'''<--------------------------------------------------------------( Info Pages )---------------------------------------------------------------------------------->'''
+
 
 def home(request):
+    # print(request.session.get('user_id'))
     # test
     data = {
-        'photo': request.session['photo']
+        'request': request,
+        'is_authenticated': request.session.get('authenticated')
     }
     return render(request, 'service/home.html', data)
+
+
+'''<--------------------------------------------------------------( Auth Service )-------------------------------------------------------------------------------->'''
+
+
+def user_profile_page(request, user_id):
+    if not request.session.get('authenticated'):
+        return redirect('login')
+    
+    response_user_data = requests.post(settings.GET_DATA_BY_ID, data={'user_id': user_id})
+    if response_user_data.status_code == 200:
+        response_user_data = response_user_data.json()
+        data = {
+            'username': response_user_data['username'],
+            'photo': response_user_data['photo'],
+            'groups_count': None,
+            'completed_tasks_percentage': None,
+            'date_joined': None,
+            'request': request,
+            'is_authenticated': request.session.get('authenticated')
+        }
+        if request.session.get('id') == response_user_data['id']:
+            data['is_owner'] = True
+
+        return render(request, 'service/profile.html', data)
 
 
 
@@ -91,3 +124,6 @@ def login_page(request):
 def logout_page(request):
     request.session.flush()
     return redirect('home')
+
+
+'''<--------------------------------------------------------------( Group Srvice )-------------------------------------------------------------------------------->'''

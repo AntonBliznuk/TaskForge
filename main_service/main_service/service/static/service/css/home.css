@@ -1,0 +1,70 @@
+/* Основные стили */
+  
+
+  
+  /* Основной контент: логотип слева, карточки справа */
+  .main-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+  }
+  
+  /* Логотип */
+  .logo {
+    flex-shrink: 0;
+    width: 500px;
+  }
+  
+  .logo img {
+    width: 100%;
+    border-radius: 100px;
+    animation: fadeIn 2s ease-in-out;
+  }
+  
+  /* Анимация */
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  /* Секция команды */
+  .team-section {
+    flex: 1;
+  }
+  
+  .team-section h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  /* Карточки сотрудников */
+  .team-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    transition: transform 0.3s;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Контакты */
+  .contact-section {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .contact-section h2 {
+    font-size: 2em;
+    margin-bottom: 10px;
+  }

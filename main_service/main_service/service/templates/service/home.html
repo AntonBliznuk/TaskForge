@@ -1,3 +1,46 @@
-<h1>Home page</h1>
-<h3>Your photo</h3>
-<img src="{{ photo }}" alt="User Photo" id="user-photo">
+{% extends 'service/layout.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block add_css %}
+<link rel="stylesheet" href="{% static 'service/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="main-content">
+        <!-- Логотип -->
+        <div class="logo">
+            <img src="{% static 'service/images/logo.jpg' %}" alt="Logo">
+        </div>
+
+        <!-- Карточки сотрудников -->
+        <div class="team-section">
+            <h2>Our Team</h2>
+            <div class="team-cards">
+                <div class="card">
+                    <h3>John Doe</h3>
+                    <p>Frontend Developer</p>
+                </div>
+                <div class="card">
+                    <h3>Jane Smith</h3>
+                    <p>Backend Developer</p>
+                </div>
+                <div class="card">
+                    <h3>Michael Brown</h3>
+                    <p>Project Manager</p>
+                </div>
+                <!-- Добавьте другие карточки сотрудников здесь -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Контакты -->
+    <div class="contact-section">
+        <h2>Contact Us</h2>
+        <p>Email: contact@example.com</p>
+        <p>Phone: +1 (555) 123-4567</p>
+    </div>
+</div>
+{% endblock %}

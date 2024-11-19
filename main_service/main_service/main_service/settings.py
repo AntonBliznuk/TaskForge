@@ -132,6 +132,8 @@ SESSION_COOKIE_AGE = 1209600
 
 # auth:
 AUTH_SERVICE_URL = 'https://taskforge-1.onrender.com'
+#AUTH_SERVICE_URL = ' http://127.0.0.1:4000'
+
 REGISTER_API = f'{AUTH_SERVICE_URL}/api/register/'
 GET_TOKENS = f'{AUTH_SERVICE_URL}/api/token/'
 GET_DATA_BY_ID = f'{AUTH_SERVICE_URL}/api/databyid/'

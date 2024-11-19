@@ -17,7 +17,7 @@
     <header class="main-header">
         <div class="container">
             <div class="logo">
-                <h1><a href="{{ settings.HOME_PAGE }}">TaskForge</a></h1>
+                <h1><a href="{% url 'home' %}">TaskForge</a></h1>
             </div>
 
             <!-- Hamburger for mobile view -->
@@ -36,11 +36,11 @@
 
             <!-- Authorization panel -->
             <div class="auth-panel">
-                {% if user.is_authenticated %}
-                    <a href="{{ settings.USER_PROFILE }}{{ user.user_id }}/">Profile</a>
-                    <a href="{{ settings.LOGOUT_PAGE }}">Logout</a>
+                {% if is_authenticated %}
+                    <a href="/profile/{{ request.session.id }}/">Profile</a>
+                    <a href="{% url 'logout' %}">Logout</a>
                 {% else %}
-                    <a href="{{ settings.LOGIN_PAGE }}">Login</a>
+                    <a href="{% url 'login' %}">Login</a>
                 {% endif %}
             </div>
         </div>
