@@ -1,0 +1,29 @@
+{% extends 'service/layout.html' %}
+{% load static %}
+
+{% block title %}My Groups{% endblock %}
+
+{% block add_css %}
+<link rel="stylesheet" href="{% static 'service/css/my_groups.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="groups-container">
+    {% if result and result|length > 0 %}
+        <ul class="group-list">
+            {% for group in result %}
+            <li class="group-item">
+                <a href="/group/{{ group.id }}/" class="group-link">
+                    <div class="group-content">
+                        <h2 class="group-name">{{ group.name }}</h2>
+                        <p class="group-description">{{ group.description }}</p>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-groups">You haven't joined any groups yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

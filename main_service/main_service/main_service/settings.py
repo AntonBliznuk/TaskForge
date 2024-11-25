@@ -128,12 +128,25 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_AGE = 1209600
 
-# Endpoints
+
+# Endpoints:
 
 # auth:
-AUTH_SERVICE_URL = 'https://taskforge-1.onrender.com'
-#AUTH_SERVICE_URL = ' http://127.0.0.1:4000'
+# AUTH_SERVICE_URL = 'https://taskforge-1.onrender.com'
+AUTH_SERVICE_URL = ' http://127.0.0.1:4000'
 
-REGISTER_API = f'{AUTH_SERVICE_URL}/api/register/'
 GET_TOKENS = f'{AUTH_SERVICE_URL}/api/token/'
+REGISTER_API = f'{AUTH_SERVICE_URL}/api/register/'
 GET_DATA_BY_ID = f'{AUTH_SERVICE_URL}/api/databyid/'
+
+
+# group:
+# GROUP_SERVICE_URL = 'https://taskforge-1.onrender.com'
+GROUP_SERVICE_URL = 'http://127.0.0.1:7000'
+
+CREATE_GROUP_API = f'{GROUP_SERVICE_URL}/api/create/group/'
+GET_GROUP_INFO = f'{GROUP_SERVICE_URL}/api/info/group/'
+DELETE_GROUP_API = f'{GROUP_SERVICE_URL}/api/delete/group/'
+ADD_USER_TO_GROUP = f'{GROUP_SERVICE_URL}/api/adduser/group/'
+DELETE_USER_FROM_GROUP = f'{GROUP_SERVICE_URL}/api/deleteuser/group/'
+MY_GROUPS_API = f'{GROUP_SERVICE_URL}/api/mygroups/'

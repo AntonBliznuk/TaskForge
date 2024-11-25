@@ -29,8 +29,8 @@
             <!-- Main Navigation -->
             <nav class="main-nav">
                 <ul>
-                    <li><a href="{{ settings.USER_GROUP_PAGE }}" class="{% if '/group/user/' in request.path %}active{% endif %}">My Groups</a></li>
-                    <li><a href="{{ settings.CREATE_GROUP_PAGE }}" class="create-button">Create</a></li>
+                    <li><a href="{% url 'mygroups' %}" class="{% if '/group/user/' in request.path %}active{% endif %}">My Groups</a></li>
+                    <li><a href="{% url 'creategroup' %}" class="create-button">Create</a></li>
                 </ul>
             </nav>
 

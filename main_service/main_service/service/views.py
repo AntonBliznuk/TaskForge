@@ -6,6 +6,7 @@ from . import forms
 
 from django.conf import settings
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 
 '''<--------------------------------------------------------------( Support Functions )-------------------------------------------------------------------------->'''
@@ -18,21 +19,23 @@ def login_support(request, username, password):
     }
     response = requests.post(settings.GET_TOKENS, data=data_to_api)
     if response.status_code == 200:
+        request.session['access'] = response.json()['access']
         decoded = jwt.decode(response.json()['access'], config('SIGNING_KEY'), algorithms=config('ALGORITHM'))
 
-        response_user_data = requests.post(settings.GET_DATA_BY_ID, data={'user_id': decoded['user_id']})
+        headers = {
+        "Authorization": f"Bearer {request.session.get('access')}"
+        }
+        response_user_data = requests.post(settings.GET_DATA_BY_ID, data={'user_id': decoded['user_id']}, headers=headers)
         if response_user_data.status_code == 200:
             request.session.update(response_user_data.json())
             return request
     return None
 
 
-'''<--------------------------------------------------------------( Info Pages )---------------------------------------------------------------------------------->'''
+'''<--------------------------------------------------------------( Main Service )--------------------------------------------------------------------------------->'''
 
 
 def home(request):
-    # print(request.session.get('user_id'))
-    # test
     data = {
         'request': request,
         'is_authenticated': request.session.get('authenticated')
@@ -47,7 +50,10 @@ def user_profile_page(request, user_id):
     if not request.session.get('authenticated'):
         return redirect('login')
     
-    response_user_data = requests.post(settings.GET_DATA_BY_ID, data={'user_id': user_id})
+    headers = {
+        "Authorization": f"Bearer {request.session.get('access')}"
+        }
+    response_user_data = requests.post(settings.GET_DATA_BY_ID, data={'user_id': user_id}, headers=headers)
     if response_user_data.status_code == 200:
         response_user_data = response_user_data.json()
         data = {
@@ -127,3 +133,204 @@ def logout_page(request):
 
 
 '''<--------------------------------------------------------------( Group Srvice )-------------------------------------------------------------------------------->'''
+
+
+def create_group_page(request):
+
+    if not request.session.get('authenticated'):
+        return redirect('login')
+    
+    data = {
+        'request': request,
+        'is_authenticated': request.session.get('authenticated'),
+        'form': forms.CreateGroupForm
+    }
+    
+    if request.method == 'POST':
+    
+        data = {
+            "name": request.POST.get('name'),
+            "password": request.POST.get('password'),
+            "description": request.POST.get('description'),
+            "creater_id": request.session.get('id')
+        }
+        headers = {
+            "Authorization": f"Bearer {request.session.get('access')}"
+        }
+        response = requests.post(settings.CREATE_GROUP_API, data=data, headers=headers)
+        if response.status_code == 201:
+            group_id = int(response.json().get('group_id'))
+
+            headers = {
+            "Authorization": f"Bearer {request.session.get('access')}"
+            }
+            data_to_api = {
+                'password': request.POST.get('password'),
+                'user_id': request.session.get('id'),
+                'group_id': group_id
+            }
+            response = requests.post(settings.ADD_USER_TO_GROUP, data=data_to_api, headers=headers)
+            if response.status_code == 200:
+                return redirect('home')
+        
+        form = forms.CreateGroupForm(data=requests.POST)
+        form.add_error('name', 'Someting went wrong!')
+
+        data['form'] = form
+
+    return render(request, 'service/create_group.html', data)
+
+
+
+def login_group_page(request, group_id):
+
+    if not request.session.get('authenticated'):
+        return redirect('login')
+    
+    data = {
+        'request': request,
+        'is_authenticated': request.session.get('authenticated'),
+        'form': forms.LogInGroupForm
+    }
+
+    if request.method == 'POST':
+        
+        headers = {
+            "Authorization": f"Bearer {request.session.get('access')}"
+        }
+        data_to_api = {
+            'password': request.POST.get('password'),
+            'user_id': request.session.get('id'),
+            'group_id': group_id
+        }
+        response = requests.post(settings.ADD_USER_TO_GROUP, data=data_to_api, headers=headers)
+        print(response.json())
+
+
+    return render(request, 'service/login_group.html', data)
+
+
+
+def group_page(request, group_id):
+    if not request.session.get('authenticated'):
+        return redirect('login')
+
+    if request.method != 'GET':
+        return redirect('home')
+
+    data = {
+        'request': request,
+        'is_authenticated': request.session.get('authenticated'),
+    }
+
+    headers = {
+        "Authorization": f"Bearer {request.session.get('access')}"
+    }
+    data_to_api = {
+        'group_id': group_id
+    }
+    response = requests.post(settings.GET_GROUP_INFO, data=data_to_api, headers=headers)
+    if response.status_code == 200:
+        data['info'] = response.json()
+
+    else:
+        return redirect(reverse('logingroup', kwargs={'group_id': group_id}))
+    
+    return render(request, 'service/group_page.html', data)
+
+
+
+def my_groups(request):
+    if not request.session.get('authenticated'):
+        return redirect('login')
+
+    if request.method != 'GET':
+        return redirect('home')
+    
+    data = {
+        'request': request,
+        'is_authenticated': request.session.get('authenticated'),
+    }
+    headers = {
+        "Authorization": f"Bearer {request.session.get('access')}"
+    }
+    data_to_api = {
+        'user_id': request.session.get('id'),
+    }
+
+    response = requests.post(settings.MY_GROUPS_API, data=data_to_api, headers=headers)
+    if response.status_code == 200:
+        id_list = response.json().get('result')
+        groups = []
+
+        for id in id_list:
+            response = requests.post(settings.GET_GROUP_INFO, data={'group_id': id}, headers=headers)
+            if response.status_code == 200:
+                groups.append(response.json())
+                
+        data['result'] = groups
+    
+    elif response.status_code == 204:
+        data['result'] = 'no groups'
+
+    else:
+        return redirect('home')
+
+    return render(request, 'service/my_groups.html', data)
+
+
+
+def logout_group_page(request, group_id):
+
+    if not request.session.get('authenticated'):
+        return redirect('login')
+    
+    if request.method != 'GET':
+        return redirect('home')
+    
+    headers = {
+        "Authorization": f"Bearer {request.session.get('access')}"
+    }
+    data = {
+        'user_id': request.session.get('id'),
+        'group_id': group_id
+    }
+    resoponse = requests.post(settings.DELETE_USER_FROM_GROUP, headers=headers, data=data)
+    print(resoponse.json())
+    return redirect('home')
+
+
+
+def delete_group(request, group_id):
+
+    if not request.session.get('authenticated'):
+        return redirect('login')
+    
+    if request.method != 'GET':
+        return redirect('home')
+
+    headers = {
+        "Authorization": f"Bearer {request.session.get('access')}"
+    }
+    data = {
+        'user_id': request.session.get('id'),
+        'group_id': group_id
+    }
+
+    response = requests.post(settings.DELETE_GROUP_API, data=data, headers=headers)
+    if response.status_code != 200:
+        print(response.json())
+    return redirect('home')
+    
+
+
+'''<--------------------------------------------------------------( Task Srvice )-------------------------------------------------------------------------------->'''
+
+def create_task(request, group_id):
+    pass
+
+def take_task(request, task_id):
+    pass
+
+def finish_task(request, task_id):
+    pass

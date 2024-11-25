@@ -12,7 +12,9 @@
     <div class="overlay">
         <main>
             <div class="login-container">
-                <h2>Login</h2>
+                <h2>Create</h2>
+                
+                <!-- Общие ошибки формы -->
                 {% if form.non_field_errors %}
                     <div class="alert alert-danger">
                         <ul>
@@ -25,8 +27,10 @@
                 
                 <form method="POST">
                     {% csrf_token %}
+                    <!-- Выводим ошибки для каждого поля над ним -->
                     {% for field in form %}
                         <div class="form-group">
+                            <!-- Ошибки для конкретного поля над ним -->
                             {% if field.errors %}
                                 <div class="alert alert-danger">
                                     <ul>
@@ -41,9 +45,8 @@
                             {{ field }}
                         </div>
                     {% endfor %}
-                    <button type="submit" class="btn">Login</button>
+                    <button type="submit" class="btn">Create</button>
                 </form>
-                <button class="btn register-btn" onclick="window.location.href='{% url 'register' %}'">Registration</button>
             </div>
         </main>
     </div>
