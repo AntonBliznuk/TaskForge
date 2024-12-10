@@ -1,7 +1,7 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser
-from cloudinary.models import CloudinaryField
 from decouple import config
+from django.db import models
+from cloudinary.models import CloudinaryField
+from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):

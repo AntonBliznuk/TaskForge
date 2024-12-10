@@ -1,0 +1,36 @@
+{% extends 'service/layout.html' %}
+{% load static %}
+
+{% block title %}Task Detail{% endblock %}
+
+{% block add_css %}
+<link rel="stylesheet" href="{% static 'service/css/task_page.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="task-detail-container">
+    <button class="back-button" onclick="window.history.back();">← Back to Group</button>
+    
+    <div class="task-card">
+        <img class="task-photo" src="http://res.cloudinary.com/djf6zsiw8/{{ task.photo }}" alt="Task Photo">
+        <h1 class="task-title">{{ task.title }}</h1>
+        <p class="task-description">{{ task.discription }}</p>
+        <div class="task-status">
+            {% if task.status == 'posted' %}
+                <a class="action-button take-button" href="{% url 'tasktake' task.id %}">Take</a>
+            {% elif task.status == 'taken' %}
+                {% if request.session.id == task.user_id %}
+                    <a class="action-button finish-button" href="{% url 'taskfinish' task.id %}">Finish</a>
+                {% else %}
+                    <p class="status-label">Taken</p>
+                {% endif %}
+            {% elif task.status == 'finished' %}
+                <p class="status-label">Finished</p>
+                {% if request.session.id == task.user_id %}
+                    <a class="action-button delete-button" href="{% url 'taskdelete' task.id %}">Delete</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

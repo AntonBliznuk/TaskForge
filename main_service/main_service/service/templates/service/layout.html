@@ -36,7 +36,7 @@
 
             <!-- Authorization panel -->
             <div class="auth-panel">
-                {% if is_authenticated %}
+                {% if request.session.username %}
                     <a href="/profile/{{ request.session.id }}/">Profile</a>
                     <a href="{% url 'logout' %}">Logout</a>
                 {% else %}

@@ -11,10 +11,12 @@
 <div class="profile-container">
     <!-- User Photo -->
     <div class="profile-picture">
-        <img src="{{ photo }}" alt="User photo">
+        <img src="http://res.cloudinary.com/djf6zsiw8/{{ user.profile_picture }}" alt="User photo">
         {% if is_owner %}
-        <form action="{{ settings.CHANGE_PROFILE_PICTURE }}" method="POST" enctype="multipart/form-data" class="profile-picture-form">
+        <form action="{% url 'changephoto' %}" method="POST" enctype="multipart/form-data" class="profile-picture-form">
             {% csrf_token %}
+            <input type="hidden" name="user.id" value="{{ request.session.id }}">
+            
             <label for="profile_picture" class="upload-label">Change Photo</label>
             <input type="file" name="profile_picture" id="profile_picture" class="upload-input">
             <button type="submit" class="upload-button">Upload</button>
@@ -24,7 +26,7 @@
 
     <!-- User Name and Stats -->
     <div class="profile-info">
-        <h1>{{ username }}</h1>
+        <h1>{{ user.username }}</h1>
         <div class="profile-stats">
             <div class="profile-stat">
                 <span class="stat-number">{{ groups_count }}</span>

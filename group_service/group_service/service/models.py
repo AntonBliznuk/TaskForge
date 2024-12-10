@@ -2,6 +2,9 @@ from django.db import models
 
 
 class Group(models.Model):
+    """
+    A model for storing information about groups.
+    """
     name = models.CharField(max_length=255, blank=False)
     password = models.CharField(max_length=255, blank=False)
     description = models.CharField(max_length=500)
@@ -18,6 +21,9 @@ class Group(models.Model):
 
 
 class Role(models.Model):
+    """
+    A model for storing information about user roles in groups.
+    """
     name = models.CharField(max_length=50, blank=False)
 
     def __str__(self):
@@ -30,6 +36,9 @@ class Role(models.Model):
 
 
 class UserToGroup(models.Model):
+    """
+    A model for storing information about group and user relationships and roles.
+    """
     user_id = models.IntegerField(blank=False)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
@@ -41,3 +50,7 @@ class UserToGroup(models.Model):
     class Meta:
         verbose_name = 'User To Group'
         verbose_name_plural = 'Users To Groups'
+        indexes = [
+            models.Index(fields=['user_id']),
+            models.Index(fields=['group']),
+        ]

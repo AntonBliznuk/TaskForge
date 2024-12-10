@@ -1,11 +1,49 @@
 {% extends 'service/layout.html' %}
 {% load static %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Group Details{% endblock %}
 
 {% block add_css %}
+<link rel="stylesheet" href="{% static 'service/css/group_page.css' %}">
 {% endblock %}
 
 {% block content %}
-{{ info }}
+<div class="group-container">
+    <!-- Left Panel -->
+    <div class="left-panel">
+        <h2 class="group-name">{{ info.name }}</h2>
+        <p><strong>Description:</strong> {{ info.description }}</p>
+        <p><strong>Created At:</strong> {{ info.created_at }}</p>
+    </div>
+
+    <!-- Middle Section -->
+    <div class="tasks-section">
+        <h2>Tasks</h2>
+        <div class="tasks-list">
+            {% for task in tasks %}
+                <a href="/task/{{ task.id }}/" class="task-card">
+                    <h3 class="task-title">{{ task.title }}</h3>
+                    <p class="task-description">{{ task.description|truncatechars:100 }}</p>
+                </a>
+            {% empty %}
+                <p>No tasks available. Start by creating one!</p>
+            {% endfor %}
+        </div>
+        <a href="/task/create/{{ info.id }}/" class="btn btn-create-task">Create Task</a>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="right-panel">
+        <h2>Members</h2>
+        <ul class="members-list">
+            {% for member in members %}
+                <li>
+                    <img src="http://res.cloudinary.com/djf6zsiw8/{{ member.profile_picture }}" alt="{{ member.username }}" class="member-photo">
+                    <span class="member-name">{{ member.username }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="/group/logout/{{ info.id }}/" class="btn btn-logout-group">Log Out Group</a>
+    </div>
+</div>
 {% endblock %}
