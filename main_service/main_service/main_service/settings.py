@@ -181,6 +181,12 @@ LOGGING = {
 }
 
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://taskforge-main-service.onrender.com",
+    "https://taskforge-t778.onrender.com",
+    'https://taskforge-task-service.onrender.com',
+    'https://taskforge-auth-service.onrender.com'
+]
 
 
 # Endpoints:
