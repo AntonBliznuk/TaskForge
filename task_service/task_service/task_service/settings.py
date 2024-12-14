@@ -81,6 +81,7 @@ CACHES = {
         'LOCATION': config('PUBLIC_REDIS_URL'),
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'SSL': True,
         }
     }
 }
