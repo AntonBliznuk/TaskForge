@@ -186,8 +186,8 @@ LOGGING = {
 # Endpoints:
 
 # auth:
-# AUTH_SERVICE_URL = 'https://taskforge-1.onrender.com'
-AUTH_SERVICE_URL = ' http://127.0.0.1:4000'
+AUTH_SERVICE_URL = 'https://taskforge-auth-service.onrender.com'
+# AUTH_SERVICE_URL = ' http://127.0.0.1:4000'
 
 GET_TOKENS = f'{AUTH_SERVICE_URL}/api/token/'
 REGISTER_API = f'{AUTH_SERVICE_URL}/api/register/'
@@ -197,8 +197,8 @@ INFO_BY_ID_LIST = f'{AUTH_SERVICE_URL}/api/infoidlist/'
 
 
 # group:
-# GROUP_SERVICE_URL = 'https://taskforge-1.onrender.com'
-GROUP_SERVICE_URL = 'http://127.0.0.1:7000'
+GROUP_SERVICE_URL = 'https://taskforge-yq90.onrender.com'
+# GROUP_SERVICE_URL = 'http://127.0.0.1:7000'
 
 MY_GROUPS_API = f'{GROUP_SERVICE_URL}/api/mygroups/'
 GET_GROUP_INFO = f'{GROUP_SERVICE_URL}/api/info/group/'
@@ -210,8 +210,8 @@ DELETE_USER_FROM_GROUP = f'{GROUP_SERVICE_URL}/api/deleteuser/group/'
 
 
 # task:
-# TASK_SERVICE_URL = ''
-TASK_SERVICE_URL = 'http://127.0.0.1:9000'
+TASK_SERVICE_URL = 'https://taskforge-task-service.onrender.com'
+# TASK_SERVICE_URL = 'http://127.0.0.1:9000'
 
 CREATE_TASK_API = f'{TASK_SERVICE_URL}/api/create/task/'
 GROUP_TASK_LIST = f'{TASK_SERVICE_URL}/api/group/tasks/'
