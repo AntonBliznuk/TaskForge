@@ -180,8 +180,8 @@ LOGGING = {
 # Endpoints
 
 # group:
-# GROUP_SERVICE_URL = 'https://taskforge-1.onrender.com'
-GROUP_SERVICE_URL = 'http://127.0.0.1:7000'
+GROUP_SERVICE_URL = 'https://taskforge-yq90.onrender.com'
+# GROUP_SERVICE_URL = 'http://127.0.0.1:7000'
 
 MY_GROUPS_API = f'{GROUP_SERVICE_URL}/api/mygroups/'
 IS_USER_IN_GROUP_API = f'{GROUP_SERVICE_URL}/api/is/user/in/group/'
