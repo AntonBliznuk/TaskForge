@@ -101,13 +101,15 @@ def user_profile_page(request, user_id):
     response = send_request_to_api(request, settings.GET_DATA_BY_ID, {'user_id': user_id})
     if not response:
         return redirect('home')
+    
+    response_groups = send_request_to_api(request, settings.MY_GROUPS_API, {})
+    if not response:
+        return redirect('home')
 
     # Initialize the dictionary with all the necessary data.
     data = {
         'user': response,
-        'groups_count': None,
-        'completed_tasks_percentage': None,
-        'date_joined': None,
+        'groups_count': response_groups.get('amount'),
         'request': request,
     }
 

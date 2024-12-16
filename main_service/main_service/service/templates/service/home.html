@@ -1,46 +1,47 @@
-{% extends 'service/layout.html' %}
+{% extends "service/layout.html" %}
 {% load static %}
-
-{% block title %}Home{% endblock %}
+{% block title %}Home - Task Forge{% endblock %}
 
 {% block add_css %}
-<link rel="stylesheet" href="{% static 'service/css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'service/css/home.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="main-content">
-        <!-- Логотип -->
-        <div class="logo">
-            <img src="{% static 'service/images/logo.jpg' %}" alt="Logo">
-        </div>
+<div class="home-container">
 
-        <!-- Карточки сотрудников -->
-        <div class="team-section">
-            <h2>Our Team</h2>
-            <div class="team-cards">
-                <div class="card">
-                    <h3>John Doe</h3>1
-                    <p>Frontend Developer</p>
-                </div>
-                <div class="card">
-                    <h3>Jane Smith</h3>
-                    <p>Backend Developer</p>
-                </div>
-                <div class="card">
-                    <h3>Michael Brown</h3>
-                    <p>Project Manager</p>
-                </div>
-                <!-- Добавьте другие карточки сотрудников здесь -->
+    <div class="hero-text">
+        <h1>Organize your work<br> 
+            in the <span class="highlight">right way</span>
+        </h1>
+    </div>
+
+
+    <div class="logo-container">
+        <img src="{% static 'service/images/logo.jpg' %}" alt="Task Forge Logo" class="pulsating-logo">
+    </div>
+
+
+    <div class="developer-cards">
+        <div class="card">
+            <img src="{% static 'service/images/Developer.jpg' %}" alt="Developer 1" class="profile-pic">
+            <div class="card-info">
+                <h3>Anton Bliznuk</h3>
+                <p>Full-stack Developer</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="{% static 'service/images/designer.jpg' %}" alt="Developer 2" class="profile-pic">
+            <div class="card-info">
+                <h3>Sofiya Gliztesova</h3>
+                <p>Designer</p>
             </div>
         </div>
     </div>
 
-    <!-- Контакты -->
-    <div class="contact-section">
-        <h2>Contact Us</h2>
-        <p>Email: contact@example.com</p>
-        <p>Phone: +1 (555) 123-4567</p>
+    <div class="github-link">
+        <a href="https://github.com/AntonBliznuk/TaskForge" target="_blank">
+            View on GitHub
+        </a>
     </div>
 </div>
 {% endblock %}

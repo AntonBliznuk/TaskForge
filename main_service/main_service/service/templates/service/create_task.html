@@ -14,7 +14,7 @@
             <div class="login-container">
                 <h2>Create Task</h2>
                 
-                <!-- Вывод ошибок формы -->
+
                 {% if form.non_field_errors %}
                     <div class="alert alert-danger">
                         <ul>
@@ -25,14 +25,14 @@
                     </div>
                 {% endif %}
                 
-                <!-- Форма для создания задачи -->
+
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     
-                    <!-- Поля формы -->
+
                     {% for field in form %}
                         <div class="form-group">
-                            <!-- Отображение ошибок для каждого поля -->
+
                             {% if field.errors %}
                                 <div class="alert alert-danger">
                                     <ul>
@@ -43,13 +43,13 @@
                                 </div>
                             {% endif %}
                             
-                            <!-- Метка и поле ввода -->
+
                             {{ field.label_tag }}
                             {{ field }}
                         </div>
                     {% endfor %}
                     
-                    <!-- Кнопка отправки -->
+
                     <button type="submit" class="btn">Create</button>
                 </form>
             </div>
