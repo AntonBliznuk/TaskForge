@@ -41,4 +41,4 @@ class InfoUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.CustomUser
-        fields = ['id', 'username', 'email', 'profile_picture']
+        fields = ['id', 'username', 'email', 'profile_picture', 'date_joined']
