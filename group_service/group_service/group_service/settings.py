@@ -11,7 +11,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ['taskforge-yq90.onrender.com']
+ALLOWED_HOSTS = ['taskforge-yq90.onrender.com', '127.0.0.1']
 
 
 # Application definition

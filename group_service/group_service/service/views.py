@@ -304,7 +304,7 @@ class UserGroups(APIView):
         serialized_data = serializers.GroupInfoSerializer(groups, many=True).data
 
         cache.set(cache_key, serialized_data, timeout=3600)
-        return Response({'result': serialized_data}, status=status.HTTP_200_OK)
+        return Response({'result': serialized_data, 'amount': len(list(groups))}, status=status.HTTP_200_OK)
 
 
 
