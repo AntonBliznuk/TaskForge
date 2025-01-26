@@ -89,7 +89,7 @@ def is_user_in_group(user_id, group):
 
 
 
-# ROLE_USER = models.Role.objects.get(name='user')
+ROLE_USER = models.Role.objects.get(name='user')
 def get_user_role():
     """
     Returns a “user” role object using a global variable for caching.
